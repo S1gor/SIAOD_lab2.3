@@ -7,15 +7,14 @@
 struct Item
 {
     std::string key;
-    int val;
+    int data;
 
-    Item() : key(""), val(0) {};
-    Item(std::string const& key, int val) : key(key), val(val) {};
+    Item() : key(""), data(0) {};
+    Item(std::string const& key, int data) : key(key), data(data) {};
 };
 
-const int SIZE = 1024;
+#define SIZE 1024
 Item table[SIZE];
-#define null(item) (item.key == "" && !item.val)
 
 uint32_t Hash1(std::string const& key)
 {
@@ -30,8 +29,8 @@ uint32_t Hash1(std::string const& key)
 uint32_t Hash2(std::string const& key)
 {
     int tmp = 0;
-    for (auto chr : key)
-        tmp += chr;
+    for (auto ch : key)
+        tmp += ch;
     return tmp % SIZE;
 }
 
@@ -42,7 +41,7 @@ void Input(Item const& item)
 
     for (int i = 0; i < SIZE; i++)
     {
-        if (null(table[h1]))
+        if (table[h1].key == "" && !table[h1].data)
         {
             table[h1] = item;
             return;
@@ -58,7 +57,7 @@ Item Search(std::string const& key)
 
     for (int i = 0; i < SIZE; i++)
     {
-        if (null(table[h1]))
+        if (table[h1].key == "" && !table[h1].data)
             return Item();
         if (table[h1].key == key)
             return table[h1];
@@ -69,27 +68,30 @@ Item Search(std::string const& key)
 
 void Print()
 {
-    std::cout << "Table" << std::endl;
+    std::cout << "Table:" << std::endl;
     for (int i = 0; i < SIZE; i++)
-        std::cout << i << '.' << "[" << table[i].key << "]" << table[i].val << '\n';
+        std::cout << i << '.' << "[" << table[i].key << "] - " << table[i].data << std::endl;
 }
 
 int main()
 {
     Input({ "WarAndPeace", 10 });
     Input({ "CrimeAndPunishment", 20 });
-    Input({ "TheMasterAndMatgarita", 4 });
+    Input({ "TheMasterAndMargarita", 4 });
+    Input({ "EugeneOnegin", 100 });
+    Input({ "TheThreeMusketeers", 70 });
+    Input({ "CaptainsDaughter", 11 });
+    Input({ "TarasBulba", 24 });
     Print();
 
-    /*std::string key;
-    std::cout << "Enter the key: ";
-    std::cin >> key;
+    std::string key;
+    std::cout << "Enter the key: "; std::cin >> key;
 
     Item found = Search(key);
-    if (null(found))
-        std::cout << "Item isn't found\n";
+    if (found.key == "" && !found.data)
+        std::cout << "Item isn't found" << std::endl;
     else
-        std::cout << "Key: " << found.key << "\nVal: " << found.val;*/
+        std::cout << "Key: " << found.key << std::endl << "Data: " << found.data << std::endl;
 
     return 0;
 }
