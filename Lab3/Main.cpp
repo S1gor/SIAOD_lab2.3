@@ -23,7 +23,7 @@ uint32_t Hash1(std::string const& key)
         tmp += ch;
     tmp *= tmp;
     tmp >>= 11;
-    return tmp % 1024;
+    return tmp % SIZE;
 }
 
 uint32_t Hash2(std::string const& key)
